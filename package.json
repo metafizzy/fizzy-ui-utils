@@ -17,5 +17,14 @@
     "DOM"
   ],
   "author": "David DeSandro",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/metafizzy/fizzy-ui-utils.git"
+  },
+  "bugs": {
+    "url": "https://github.com/metafizzy/fizzy-ui-utils/issues"
+  },
+  "homepage": "https://github.com/metafizzy/fizzy-ui-utils"
 }
