@@ -1,8 +1,8 @@
 {
   "name": "fizzy-ui-utils",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "authors": [
-    "David DeSandro <desandrocodes@gmail.com>"
+    "David DeSandro"
   ],
   "description": "UI utilities",
   "main": "utils.js",

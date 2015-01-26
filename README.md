@@ -10,7 +10,7 @@ Bower: `bower install fizzy-ui-utils --save`
 
 npm: `npm install fizzy-ui-utils --save`
 
-## Reference
+## API
 
 ``` js
 // fizzyUIUtils is the browser global
@@ -48,6 +48,9 @@ utils.getParent( elem, selector )
 utils.getQueryElement( elem )
 // if elem is a string, use it as a selector and return element
 
+Class.prototype.handleEvent = utils.handleEvent;
+// enable Class.onclick when element.addEventListener( 'click', this, false )
+
 utils.filterFindElements( elems, selector )
 // iterate through elems, filter and find all elements that match selector
 
@@ -60,4 +63,8 @@ utils.htmlInit( Class, namespace )
 // pass in JSON options from element's data-options-namespace attribute
 ```
 
+---
+
 MIT license. Have at it.
+
+By [Metafizzy](http://metafizzy.co)

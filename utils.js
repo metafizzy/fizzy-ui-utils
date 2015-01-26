@@ -1,5 +1,5 @@
 /**
- * Fizzy UI utils v0.1.0
+ * Fizzy UI utils v0.1.1
  * MIT license
  */
 
@@ -149,6 +149,16 @@ utils.getQueryElement = function( elem ) {
     return document.querySelector( elem );
   }
   return elem;
+};
+
+// ----- handleEvent ----- //
+
+// enable .ontype to trigger from .addEventListener( elem, 'type' )
+utils.handleEvent = function( event ) {
+  var method = 'on' + event.type;
+  if ( this[ method ] ) {
+    this[ method ]( event );
+  }
 };
 
 // ----- filterFindElements ----- //
