@@ -1,5 +1,5 @@
 /**
- * Fizzy UI utils v0.1.1
+ * Fizzy UI utils v1.0.0
  * MIT license
  */
 
@@ -99,7 +99,7 @@ utils.indexOf = Array.prototype.indexOf ? function( ary, obj ) {
 
 // ----- removeFrom ----- //
 
-utils.removeFrom = function( obj, ary ) {
+utils.removeFrom = function( ary, obj ) {
   var index = utils.indexOf( ary, obj );
   if ( index != -1 ) {
     ary.splice( index, 1 );

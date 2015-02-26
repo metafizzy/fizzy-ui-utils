@@ -33,7 +33,7 @@ utils.makeArray( obj )
 utils.indexOf( ary, obj )
 // get index of object in array
 
-utils.removeFrom( obj, ary )
+utils.removeFrom( ary, obj )
 // remove object from array
 
 utils.isElement( obj )
