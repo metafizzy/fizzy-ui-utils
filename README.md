@@ -57,6 +57,9 @@ utils.filterFindElements( elems, selector )
 utils.debounceMethod( Class, methodName, threhold )
 // debounce a class method
 
+utils.toDashed( str )
+// 'camelCaseString' -> 'camel-case-string'
+
 utils.htmlInit( Class, namespace )
 // on document ready, initialize Class on every element
 // that matches js-namespace

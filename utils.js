@@ -1,5 +1,5 @@
 /**
- * Fizzy UI utils v1.0.0
+ * Fizzy UI utils v1.0.1
  * MIT license
  */
 
@@ -218,14 +218,12 @@ utils.debounceMethod = function( _class, methodName, threshold ) {
 
 // ----- htmlInit ----- //
 
-var jQuery = window.jQuery;
-
 // http://jamesroberts.name/blog/2010/02/22/string-functions-for-javascript-trim-to-camel-case-to-dashed-and-to-underscore/
-function toDashed( str ) {
+utils.toDashed = function( str ) {
   return str.replace( /(.)([A-Z])/g, function( match, $1, $2 ) {
     return $1 + '-' + $2;
   }).toLowerCase();
-}
+};
 
 var console = window.console;
 /**
@@ -235,7 +233,7 @@ var console = window.console;
  */
 utils.htmlInit = function( WidgetClass, namespace ) {
   docReady( function() {
-    var dashedNamespace = toDashed( namespace );
+    var dashedNamespace = utils.toDashed( namespace );
     var elems = document.querySelectorAll( '.js-' + dashedNamespace );
     var dataAttr = 'data-' + dashedNamespace + '-options';
 
@@ -257,6 +255,7 @@ utils.htmlInit = function( WidgetClass, namespace ) {
       // initialize
       var instance = new WidgetClass( elem, options );
       // make available via $().data('layoutname')
+      var jQuery = window.jQuery;
       if ( jQuery ) {
         jQuery.data( elem, namespace, instance );
       }
