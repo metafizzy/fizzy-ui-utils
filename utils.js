@@ -14,7 +14,7 @@
     // AMD
     define( [
       'doc-ready/doc-ready',
-      'matches-selector/matches-selector'
+      'desandro-matches-selector/matches-selector'
     ], function( docReady, matchesSelector ) {
       return factory( window, docReady, matchesSelector );
     });
