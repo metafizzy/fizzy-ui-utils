@@ -24,23 +24,11 @@ utils.extend( a, b )
 utils.modulo( num, div )
 // num [modulo] div
 
-utils.isArray( obj )
-// check if object is Array
-
 utils.makeArray( obj )
 // make array from object
 
-utils.indexOf( ary, obj )
-// get index of object in array
-
 utils.removeFrom( ary, obj )
 // remove object from array
-
-utils.isElement( obj )
-// check if object is an element
-
-utils.setText( elem, text )
-// set text of an element
 
 utils.getParent( elem, selector )
 // get parent element of an element, given a selector string

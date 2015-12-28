@@ -56,19 +56,12 @@ utils.modulo = function( num, div ) {
   return ( ( num % div ) + div ) % div;
 };
 
-// ----- isArray ----- //
-  
-var objToString = Object.prototype.toString;
-utils.isArray = function( obj ) {
-  return objToString.call( obj ) == '[object Array]';
-};
-
 // ----- makeArray ----- //
 
 // turn element or nodeList into an array
 utils.makeArray = function( obj ) {
   var ary = [];
-  if ( utils.isArray( obj ) ) {
+  if ( Array.isArray( obj ) ) {
     // use object if already an array
     ary = obj;
   } else if ( obj && typeof obj.length == 'number' ) {
@@ -83,52 +76,14 @@ utils.makeArray = function( obj ) {
   return ary;
 };
 
-// ----- indexOf ----- //
-
-// index of helper cause IE8
-utils.indexOf = Array.prototype.indexOf ? function( ary, obj ) {
-    return ary.indexOf( obj );
-  } : function( ary, obj ) {
-    for ( var i=0, len = ary.length; i < len; i++ ) {
-      if ( ary[i] === obj ) {
-        return i;
-      }
-    }
-    return -1;
-  };
-
 // ----- removeFrom ----- //
 
 utils.removeFrom = function( ary, obj ) {
-  var index = utils.indexOf( ary, obj );
+  var index = ary.indexOf( obj );
   if ( index != -1 ) {
     ary.splice( index, 1 );
   }
 };
-
-// ----- isElement ----- //
-
-// http://stackoverflow.com/a/384380/182183
-utils.isElement = ( typeof HTMLElement == 'function' || typeof HTMLElement == 'object' ) ?
-  function isElementDOM2( obj ) {
-    return obj instanceof HTMLElement;
-  } :
-  function isElementQuirky( obj ) {
-    return obj && typeof obj == 'object' &&
-      obj.nodeType == 1 && typeof obj.nodeName == 'string';
-  };
-
-// ----- setText ----- //
-
-utils.setText = ( function() {
-  var setTextProperty;
-  function setText( elem, text ) {
-    // only check setTextProperty once
-    setTextProperty = setTextProperty || ( document.documentElement.textContent !== undefined ? 'textContent' : 'innerText' );
-    elem[ setTextProperty ] = text;
-  }
-  return setText;
-})();
 
 // ----- getParent ----- //
 
@@ -171,7 +126,7 @@ utils.filterFindElements = function( elems, selector ) {
   for ( var i=0, len = elems.length; i < len; i++ ) {
     var elem = elems[i];
     // check that elem is an actual element
-    if ( !utils.isElement( elem ) ) {
+    if ( !( elem instanceof HTMLElement ) ) {
       continue;
     }
     // filter & find items if we have a selector
