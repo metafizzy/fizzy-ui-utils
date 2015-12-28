@@ -45,6 +45,9 @@ utils.filterFindElements( elems, selector )
 utils.debounceMethod( Class, methodName, threhold )
 // debounce a class method
 
+utils.docReady( callback )
+// trigger callback on document ready
+
 utils.toDashed( str )
 // 'camelCaseString' -> 'camel-case-string'
 

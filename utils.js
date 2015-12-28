@@ -13,28 +13,25 @@
   if ( typeof define == 'function' && define.amd ) {
     // AMD
     define( [
-      'doc-ready/doc-ready',
       'matches-selector/matches-selector'
-    ], function( docReady, matchesSelector ) {
-      return factory( window, docReady, matchesSelector );
+    ], function( matchesSelector ) {
+      return factory( window, matchesSelector );
     });
   } else if ( typeof exports == 'object' ) {
     // CommonJS
     module.exports = factory(
       window,
-      require('doc-ready'),
       require('desandro-matches-selector')
     );
   } else {
     // browser global
     window.fizzyUIUtils = factory(
       window,
-      window.docReady,
       window.matchesSelector
     );
   }
 
-}( window, function factory( window, docReady, matchesSelector ) {
+}( window, function factory( window, matchesSelector ) {
 
 'use strict';
 
@@ -171,6 +168,16 @@ utils.debounceMethod = function( _class, methodName, threshold ) {
   };
 };
 
+// ----- docReady ----- //
+
+utils.docReady = function( callback ) {
+  if ( document.readyState == 'complete' ) {
+    callback();
+  } else {
+    document.addEventListener( 'DOMContentLoaded', callback );
+  }
+};
+
 // ----- htmlInit ----- //
 
 // http://jamesroberts.name/blog/2010/02/22/string-functions-for-javascript-trim-to-camel-case-to-dashed-and-to-underscore/
@@ -187,7 +194,7 @@ var console = window.console;
  * options are parsed from data-namespace-option attribute
  */
 utils.htmlInit = function( WidgetClass, namespace ) {
-  docReady( function() {
+  utils.docReady( function() {
     var dashedNamespace = utils.toDashed( namespace );
     var elems = document.querySelectorAll( '.js-' + dashedNamespace );
     var dataAttr = 'data-' + dashedNamespace + '-options';
