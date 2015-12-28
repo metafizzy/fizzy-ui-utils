@@ -63,7 +63,7 @@ utils.makeArray = function( obj ) {
     ary = obj;
   } else if ( obj && typeof obj.length == 'number' ) {
     // convert nodeList to array
-    for ( var i=0, len = obj.length; i < len; i++ ) {
+    for ( var i=0; i < obj.length; i++ ) {
       ary.push( obj[i] );
     }
   } else {
@@ -120,28 +120,28 @@ utils.filterFindElements = function( elems, selector ) {
   elems = utils.makeArray( elems );
   var ffElems = [];
 
-  for ( var i=0, len = elems.length; i < len; i++ ) {
-    var elem = elems[i];
+  elems.forEach( function( elem ) {
     // check that elem is an actual element
     if ( !( elem instanceof HTMLElement ) ) {
-      continue;
+      return;
+    }
+    // add elem if no selector
+    if ( !selector ) {
+      ffElems.push( elem );
+      return;
     }
     // filter & find items if we have a selector
-    if ( selector ) {
-      // filter siblings
-      if ( matchesSelector( elem, selector ) ) {
-        ffElems.push( elem );
-      }
-      // find children
-      var childElems = elem.querySelectorAll( selector );
-      // concat childElems to filterFound array
-      for ( var j=0, jLen = childElems.length; j < jLen; j++ ) {
-        ffElems.push( childElems[j] );
-      }
-    } else {
+    // filter
+    if ( matchesSelector( elem, selector ) ) {
       ffElems.push( elem );
     }
-  }
+    // find children
+    var childElems = elem.querySelectorAll( selector );
+    // concat childElems to filterFound array
+    for ( var i=0; i < childElems.length; i++ ) {
+      ffElems.push( childElems[i] );
+    }
+  });
 
   return ffElems;
 };
@@ -199,7 +199,7 @@ utils.htmlInit = function( WidgetClass, namespace ) {
     var elems = document.querySelectorAll( '.js-' + dashedNamespace );
     var dataAttr = 'data-' + dashedNamespace + '-options';
 
-    for ( var i=0, len = elems.length; i < len; i++ ) {
+    for ( var i=0; i < elems.length; i++ ) {
       var elem = elems[i];
       var attr = elem.getAttribute( dataAttr );
       var options;
