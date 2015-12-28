@@ -189,39 +189,43 @@ utils.toDashed = function( str ) {
 
 var console = window.console;
 /**
- * allow user to initialize classes via .js-namespace class
+ * allow user to initialize classes via [data-namespace] or .js-namespace class
  * htmlInit( Widget, 'widgetName' )
- * options are parsed from data-namespace-option attribute
+ * options are parsed from data-namespace-options
  */
 utils.htmlInit = function( WidgetClass, namespace ) {
   utils.docReady( function() {
     var dashedNamespace = utils.toDashed( namespace );
-    var elems = document.querySelectorAll( '.js-' + dashedNamespace );
-    var dataAttr = 'data-' + dashedNamespace + '-options';
+    var dataAttr = 'data-' + dashedNamespace;
+    var dataAttrElems = document.querySelectorAll( '[' + dataAttr + ']' );
+    var jsDashElems = document.querySelectorAll( '.js-' + dashedNamespace );
+    var elems = utils.makeArray( dataAttrElems )
+      .concat( utils.makeArray( jsDashElems ) );
+    var dataOptionsAttr = dataAttr + '-options';
+    var jQuery = window.jQuery;
 
-    for ( var i=0; i < elems.length; i++ ) {
-      var elem = elems[i];
-      var attr = elem.getAttribute( dataAttr );
+    elems.forEach( function( elem ) {
+      var attr = elem.getAttribute( dataAttr ) ||
+        elem.getAttribute( dataOptionsAttr );
       var options;
       try {
         options = attr && JSON.parse( attr );
       } catch ( error ) {
         // log error, do not initialize
         if ( console ) {
-          console.error( 'Error parsing ' + dataAttr + ' on ' +
-            elem.nodeName.toLowerCase() + ( elem.id ? '#' + elem.id : '' ) + ': ' +
-            error );
+          console.error( 'Error parsing ' + dataAttr + ' on ' + elem.className +
+          ': ' + error );
         }
-        continue;
+        return;
       }
       // initialize
       var instance = new WidgetClass( elem, options );
       // make available via $().data('layoutname')
-      var jQuery = window.jQuery;
       if ( jQuery ) {
         jQuery.data( elem, namespace, instance );
       }
-    }
+    });
+
   });
 };
 
