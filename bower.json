@@ -26,5 +26,8 @@
     "test",
     "tests",
     "package.json"
-  ]
+  ],
+  "devDependencies": {
+    "qunit": "~1.20.0"
+  }
 }
