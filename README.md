@@ -68,6 +68,6 @@ utils.htmlInit( Class, namespace )
 
 ---
 
-MIT license. Have at it.
+[MIT license](http://desandro.mit-license.org/). Have at it.
 
 By [Metafizzy](http://metafizzy.co)
