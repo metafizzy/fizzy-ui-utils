@@ -170,7 +170,7 @@ utils.debounceMethod = function( _class, methodName, threshold ) {
 // ----- docReady ----- //
 
 utils.docReady = function( callback ) {
-  if ( document.readyState == 'complete' ) {
+  if ( document.readyState != 'loading' ) {
     callback();
   } else {
     document.addEventListener( 'DOMContentLoaded', callback );
