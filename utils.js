@@ -1,5 +1,5 @@
 /**
- * Fizzy UI utils v2.0.1
+ * Fizzy UI utils v2.0.2
  * MIT license
  */
 
@@ -170,7 +170,8 @@ utils.debounceMethod = function( _class, methodName, threshold ) {
 // ----- docReady ----- //
 
 utils.docReady = function( callback ) {
-  if ( document.readyState == 'complete' ) {
+  var readyState = document.readyState;
+  if ( readyState == 'complete' || readyState == 'interactive' ) {
     callback();
   } else {
     document.addEventListener( 'DOMContentLoaded', callback );
