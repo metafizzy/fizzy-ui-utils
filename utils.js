@@ -1,5 +1,5 @@
 /**
- * Fizzy UI utils v2.0.3
+ * Fizzy UI utils v2.0.4
  * MIT license
  */
 
@@ -60,7 +60,8 @@ utils.makeArray = function( obj ) {
   if ( Array.isArray( obj ) ) {
     // use object if already an array
     ary = obj;
-  } else if ( obj && typeof obj.length == 'number' ) {
+  } else if ( obj && typeof obj == 'object' &&
+    typeof obj.length == 'number' ) {
     // convert nodeList to array
     for ( var i=0; i < obj.length; i++ ) {
       ary.push( obj[i] );

@@ -4,7 +4,7 @@ QUnit.test( 'makeArray', function( assert ) {
 
   var aryA = [ 0, 1, 2 ];
   var aryB = makeArray( aryA );
-  assert.equal( aryA, aryB, 'makeArray on array returns same array' );
+  assert.deepEqual( aryA, aryB, 'makeArray on array returns same array' );
 
   var itemElems = document.querySelectorAll('.grid-a .item');
   var items = makeArray( itemElems );
@@ -19,5 +19,9 @@ QUnit.test( 'makeArray', function( assert ) {
   assert.ok( Array.isArray( empty ), 'makeArray on undefined is array' );
   assert.equal( empty.length, 1, 'length = 1' );
   assert.ok( empty[0] === undefined, '[0] is undefined' );
+
+  // isotope#1235
+  var aryC = makeArray('foo');
+  assert.deepEqual( aryC, [ 'foo' ], 'string turns to single array item' );
 
 });
