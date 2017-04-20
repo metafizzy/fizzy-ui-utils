@@ -14,4 +14,17 @@ QUnit.test( 'getParent', function( assert ) {
   parent = getParent( itemA1, '#qunit' );
   assert.ok( parent === undefined, 'parent not tree is undefined' );
 
+  var treeNotInDocument = document.createElement('div');
+  treeNotInDocument.innerHTML =
+    '<div class="a">' +
+      '<div class="a1">' +
+    '</div>';
+
+  parent = getParent( treeNotInDocument.querySelector('.a1'), '.not-found' );
+
+  assert.ok(
+    parent === undefined,
+    'Parent should be `undefined` even when the given tree is not in the document'
+  );
+
 });
