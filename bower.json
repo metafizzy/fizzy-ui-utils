@@ -6,7 +6,7 @@
   "description": "UI utilities",
   "main": "utils.js",
   "dependencies": {
-    "desandro-matches-selector": "~2.0.0"
+    "desandro-matches-selector": "^2.0.0"
   },
   "moduleType": [
     "amd",
