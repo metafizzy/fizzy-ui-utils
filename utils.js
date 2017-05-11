@@ -149,22 +149,18 @@ utils.filterFindElements = function( elems, selector ) {
 // ----- debounceMethod ----- //
 
 utils.debounceMethod = function( _class, methodName, threshold ) {
+  threshold = threshold || 100;
   // original method
   var method = _class.prototype[ methodName ];
-  var timeoutName = methodName + 'Timeout';
+  var timeout;
 
   _class.prototype[ methodName ] = function() {
-    var timeout = this[ timeoutName ];
-    if ( timeout ) {
-      clearTimeout( timeout );
-    }
+    clearTimeout( timeout );
     var args = arguments;
-
     var _this = this;
-    this[ timeoutName ] = setTimeout( function() {
+    timeout = setTimeout( function() {
       method.apply( _this, args );
-      delete _this[ timeoutName ];
-    }, threshold || 100 );
+    }, threshold );
   };
 };
 
