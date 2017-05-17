@@ -59,9 +59,15 @@ utils.makeArray = function( obj ) {
   var ary = [];
   if ( Array.isArray( obj ) ) {
     // use object if already an array
-    ary = obj;
-  } else if ( obj && typeof obj == 'object' &&
-    typeof obj.length == 'number' ) {
+    return obj;
+  }
+  // return empty array if undefined or null. #6
+  if ( obj === null || obj === undefined ) {
+    return ary;
+  }
+
+  var isArrayLike = typeof obj == 'object' && typeof obj.length == 'number';
+  if ( isArrayLike ) {
     // convert nodeList to array
     for ( var i=0; i < obj.length; i++ ) {
       ary.push( obj[i] );
