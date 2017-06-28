@@ -54,29 +54,27 @@ utils.modulo = function( num, div ) {
 
 // ----- makeArray ----- //
 
+var arraySlice = Array.prototype.slice;
+
 // turn element or nodeList into an array
 utils.makeArray = function( obj ) {
-  var ary = [];
   if ( Array.isArray( obj ) ) {
     // use object if already an array
     return obj;
   }
   // return empty array if undefined or null. #6
   if ( obj === null || obj === undefined ) {
-    return ary;
+    return [];
   }
 
   var isArrayLike = typeof obj == 'object' && typeof obj.length == 'number';
   if ( isArrayLike ) {
     // convert nodeList to array
-    for ( var i=0; i < obj.length; i++ ) {
-      ary.push( obj[i] );
-    }
-  } else {
-    // array of single index
-    ary.push( obj );
+    return arraySlice.call( obj );
   }
-  return ary;
+
+  // array of single index
+  return [ obj ];
 };
 
 // ----- removeFrom ----- //
