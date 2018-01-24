@@ -1,5 +1,5 @@
 /**
- * Fizzy UI utils v2.0.5
+ * Fizzy UI utils v2.0.6
  * MIT license
  */
 
