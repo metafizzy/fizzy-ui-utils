@@ -6,7 +6,8 @@
   "dependencies": {
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run lint && echo \"view test/index.html in a browser\"",
+    "lint": "npx eslint ."
   },
   "keywords": [
     "ui",
@@ -16,7 +17,28 @@
   ],
   "author": "David DeSandro",
   "license": "MIT",
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "^7.15.0",
+    "eslint-plugin-metafizzy": "^1.1.1",
+    "qunit": "^2.13.0"
+  },
+  "eslintConfig": {
+    "plugins": [
+      "metafizzy"
+    ],
+    "extends": "plugin:metafizzy/browser",
+    "parserOptions": {
+      "ecmaVersion": 2018
+    },
+    "env": {
+      "browser": true,
+      "commonjs": true
+    },
+    "globals": {
+      "QUnit": "readonly",
+      "fizzyUIUtils": "readonly"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/metafizzy/fizzy-ui-utils.git"

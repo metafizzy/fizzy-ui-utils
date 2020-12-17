@@ -3,18 +3,9 @@
  * MIT license
  */
 
-/*jshint browser: true, undef: true, unused: true, strict: true */
-
 ( function( window, factory ) {
   // universal module definition
-  /*jshint strict: false */ /*globals define, module, require */
-
-  if ( typeof define == 'function' && define.amd ) {
-    // AMD
-    define( [], function() {
-      return factory( window );
-    });
-  } else if ( typeof module == 'object' && module.exports ) {
+  if ( typeof module == 'object' && module.exports ) {
     // CommonJS
     module.exports = factory( window );
   } else {
@@ -24,15 +15,13 @@
 
 }( window, function factory( window ) {
 
-'use strict';
-
-var utils = {};
+let utils = {};
 
 // ----- extend ----- //
 
 // extends objects
 utils.extend = function( a, b ) {
-  for ( var prop in b ) {
+  for ( let prop in b ) {
     a[ prop ] = b[ prop ];
   }
   return a;
@@ -46,7 +35,7 @@ utils.modulo = function( num, div ) {
 
 // ----- makeArray ----- //
 
-var arraySlice = Array.prototype.slice;
+let arraySlice = Array.prototype.slice;
 
 // turn element or nodeList into an array
 utils.makeArray = function( obj ) {
@@ -59,7 +48,7 @@ utils.makeArray = function( obj ) {
     return [];
   }
 
-  var isArrayLike = typeof obj == 'object' && typeof obj.length == 'number';
+  let isArrayLike = typeof obj == 'object' && typeof obj.length == 'number';
   if ( isArrayLike ) {
     // convert nodeList to array
     return arraySlice.call( obj );
@@ -72,7 +61,7 @@ utils.makeArray = function( obj ) {
 // ----- removeFrom ----- //
 
 utils.removeFrom = function( ary, obj ) {
-  var index = ary.indexOf( obj );
+  let index = ary.indexOf( obj );
   if ( index != -1 ) {
     ary.splice( index, 1 );
   }
@@ -103,7 +92,7 @@ utils.getQueryElement = function( elem ) {
 
 // enable .ontype to trigger from .addEventListener( elem, 'type' )
 utils.handleEvent = function( event ) {
-  var method = 'on' + event.type;
+  let method = 'on' + event.type;
   if ( this[ method ] ) {
     this[ method ]( event );
   }
@@ -114,7 +103,7 @@ utils.handleEvent = function( event ) {
 utils.filterFindElements = function( elems, selector ) {
   // make array of elems
   elems = utils.makeArray( elems );
-  var ffElems = [];
+  let ffElems = [];
 
   elems.forEach( function( elem ) {
     // check that elem is an actual element
@@ -132,12 +121,12 @@ utils.filterFindElements = function( elems, selector ) {
       ffElems.push( elem );
     }
     // find children
-    var childElems = elem.querySelectorAll( selector );
+    let childElems = elem.querySelectorAll( selector );
     // concat childElems to filterFound array
-    for ( var i=0; i < childElems.length; i++ ) {
+    for ( let i = 0; i < childElems.length; i++ ) {
       ffElems.push( childElems[i] );
     }
-  });
+  } );
 
   return ffElems;
 };
@@ -147,15 +136,15 @@ utils.filterFindElements = function( elems, selector ) {
 utils.debounceMethod = function( _class, methodName, threshold ) {
   threshold = threshold || 100;
   // original method
-  var method = _class.prototype[ methodName ];
-  var timeoutName = methodName + 'Timeout';
+  let method = _class.prototype[ methodName ];
+  let timeoutName = methodName + 'Timeout';
 
   _class.prototype[ methodName ] = function() {
-    var timeout = this[ timeoutName ];
+    let timeout = this[ timeoutName ];
     clearTimeout( timeout );
 
-    var args = arguments;
-    var _this = this;
+    let args = arguments;
+    let _this = this;
     this[ timeoutName ] = setTimeout( function() {
       method.apply( _this, args );
       delete _this[ timeoutName ];
@@ -165,46 +154,45 @@ utils.debounceMethod = function( _class, methodName, threshold ) {
 
 // ----- docReady ----- //
 
-utils.docReady = function( callback ) {
-  var readyState = document.readyState;
+utils.docReady = function( onDocReady ) {
+  let readyState = document.readyState;
   if ( readyState == 'complete' || readyState == 'interactive' ) {
     // do async to allow for other scripts to run. metafizzy/flickity#441
-    setTimeout( callback );
+    setTimeout( onDocReady );
   } else {
-    document.addEventListener( 'DOMContentLoaded', callback );
+    document.addEventListener( 'DOMContentLoaded', onDocReady );
   }
 };
 
 // ----- htmlInit ----- //
 
-// http://jamesroberts.name/blog/2010/02/22/string-functions-for-javascript-trim-to-camel-case-to-dashed-and-to-underscore/
+// http://bit.ly/3oYLusc
 utils.toDashed = function( str ) {
   return str.replace( /(.)([A-Z])/g, function( match, $1, $2 ) {
     return $1 + '-' + $2;
-  }).toLowerCase();
+  } ).toLowerCase();
 };
 
-var console = window.console;
-/**
- * allow user to initialize classes via [data-namespace] or .js-namespace class
- * htmlInit( Widget, 'widgetName' )
- * options are parsed from data-namespace-options
- */
+let console = window.console;
+
+// allow user to initialize classes via [data-namespace] or .js-namespace class
+// htmlInit( Widget, 'widgetName' )
+// options are parsed from data-namespace-options
 utils.htmlInit = function( WidgetClass, namespace ) {
   utils.docReady( function() {
-    var dashedNamespace = utils.toDashed( namespace );
-    var dataAttr = 'data-' + dashedNamespace;
-    var dataAttrElems = document.querySelectorAll( '[' + dataAttr + ']' );
-    var jsDashElems = document.querySelectorAll( '.js-' + dashedNamespace );
-    var elems = utils.makeArray( dataAttrElems )
+    let dashedNamespace = utils.toDashed( namespace );
+    let dataAttr = 'data-' + dashedNamespace;
+    let dataAttrElems = document.querySelectorAll( '[' + dataAttr + ']' );
+    let jsDashElems = document.querySelectorAll( '.js-' + dashedNamespace );
+    let elems = utils.makeArray( dataAttrElems )
       .concat( utils.makeArray( jsDashElems ) );
-    var dataOptionsAttr = dataAttr + '-options';
-    var jQuery = window.jQuery;
+    let dataOptionsAttr = dataAttr + '-options';
+    let jQuery = window.jQuery;
 
     elems.forEach( function( elem ) {
-      var attr = elem.getAttribute( dataAttr ) ||
+      let attr = elem.getAttribute( dataAttr ) ||
         elem.getAttribute( dataOptionsAttr );
-      var options;
+      let options;
       try {
         options = attr && JSON.parse( attr );
       } catch ( error ) {
@@ -216,18 +204,18 @@ utils.htmlInit = function( WidgetClass, namespace ) {
         return;
       }
       // initialize
-      var instance = new WidgetClass( elem, options );
+      let instance = new WidgetClass( elem, options );
       // make available via $().data('namespace')
       if ( jQuery ) {
         jQuery.data( elem, namespace, instance );
       }
-    });
+    } );
 
-  });
+  } );
 };
 
 // -----  ----- //
 
 return utils;
 
-}));
+} ) );

@@ -1,11 +1,11 @@
 QUnit.test( 'getParent', function( assert ) {
 
-  var getParent = fizzyUIUtils.getParent;
+  let getParent = fizzyUIUtils.getParent;
 
-  var gridA = document.querySelector('.grid-a');
-  var itemA1 = document.querySelector('.item-a1');
+  let gridA = document.querySelector('.grid-a');
+  let itemA1 = document.querySelector('.item-a1');
 
-  var parent = getParent( itemA1, '.grid' );
+  let parent = getParent( itemA1, '.grid' );
   assert.equal( parent, gridA, 'got grid parent from item' );
 
   parent = getParent( document.querySelector('.span-a3'), '.grid' );
@@ -14,7 +14,7 @@ QUnit.test( 'getParent', function( assert ) {
   parent = getParent( itemA1, '#qunit' );
   assert.ok( parent === undefined, 'parent not tree is undefined' );
 
-  var treeNotInDocument = document.createElement('div');
+  let treeNotInDocument = document.createElement('div');
   treeNotInDocument.innerHTML =
     '<div class="a">' +
       '<div class="a1">' +
@@ -23,8 +23,8 @@ QUnit.test( 'getParent', function( assert ) {
   parent = getParent( treeNotInDocument.querySelector('.a1'), '.not-found' );
 
   assert.ok(
-    parent === undefined,
-    'Parent should be `undefined` even when the given tree is not in the document'
+      parent === undefined,
+      'Parent should be `undefined` even when the given tree is not in the document',
   );
 
-});
+} );
