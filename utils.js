@@ -11,26 +11,18 @@
 
   if ( typeof define == 'function' && define.amd ) {
     // AMD
-    define( [
-      'desandro-matches-selector/matches-selector'
-    ], function( matchesSelector ) {
-      return factory( window, matchesSelector );
+    define( [], function() {
+      return factory( window );
     });
   } else if ( typeof module == 'object' && module.exports ) {
     // CommonJS
-    module.exports = factory(
-      window,
-      require('desandro-matches-selector')
-    );
+    module.exports = factory( window );
   } else {
     // browser global
-    window.fizzyUIUtils = factory(
-      window,
-      window.matchesSelector
-    );
+    window.fizzyUIUtils = factory( window );
   }
 
-}( window, function factory( window, matchesSelector ) {
+}( window, function factory( window ) {
 
 'use strict';
 
@@ -91,7 +83,7 @@ utils.removeFrom = function( ary, obj ) {
 utils.getParent = function( elem, selector ) {
   while ( elem.parentNode && elem != document.body ) {
     elem = elem.parentNode;
-    if ( matchesSelector( elem, selector ) ) {
+    if ( elem.matches( selector ) ) {
       return elem;
     }
   }
@@ -136,7 +128,7 @@ utils.filterFindElements = function( elems, selector ) {
     }
     // filter & find items if we have a selector
     // filter
-    if ( matchesSelector( elem, selector ) ) {
+    if ( elem.matches( selector ) ) {
       ffElems.push( elem );
     }
     // find children
