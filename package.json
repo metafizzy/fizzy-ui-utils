@@ -3,8 +3,7 @@
   "version": "2.0.7",
   "description": "UI utilities",
   "main": "utils.js",
-  "dependencies": {
-  },
+  "dependencies": {},
   "scripts": {
     "test": "npm run lint && echo \"view test/index.html in a browser\"",
     "lint": "npx eslint ."
@@ -19,7 +18,7 @@
   "license": "MIT",
   "devDependencies": {
     "eslint": "^7.15.0",
-    "eslint-plugin-metafizzy": "^1.1.1",
+    "eslint-plugin-metafizzy": "^1.1.2",
     "qunit": "^2.13.0"
   },
   "eslintConfig": {

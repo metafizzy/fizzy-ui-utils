@@ -21,10 +21,7 @@ let utils = {};
 
 // extends objects
 utils.extend = function( a, b ) {
-  for ( let prop in b ) {
-    a[ prop ] = b[ prop ];
-  }
-  return a;
+  return Object.assign( a, b );
 };
 
 // ----- modulo ----- //
@@ -35,24 +32,17 @@ utils.modulo = function( num, div ) {
 
 // ----- makeArray ----- //
 
-let arraySlice = Array.prototype.slice;
-
 // turn element or nodeList into an array
 utils.makeArray = function( obj ) {
-  if ( Array.isArray( obj ) ) {
-    // use object if already an array
-    return obj;
-  }
+  // use object if already an array
+  if ( Array.isArray( obj ) ) return obj;
+
   // return empty array if undefined or null. #6
-  if ( obj === null || obj === undefined ) {
-    return [];
-  }
+  if ( obj === null || obj === undefined ) return [];
 
   let isArrayLike = typeof obj == 'object' && typeof obj.length == 'number';
-  if ( isArrayLike ) {
-    // convert nodeList to array
-    return arraySlice.call( obj );
-  }
+  // convert nodeList to array
+  if ( isArrayLike ) return [ ...obj ];
 
   // array of single index
   return [ obj ];
@@ -72,9 +62,7 @@ utils.removeFrom = function( ary, obj ) {
 utils.getParent = function( elem, selector ) {
   while ( elem.parentNode && elem != document.body ) {
     elem = elem.parentNode;
-    if ( elem.matches( selector ) ) {
-      return elem;
-    }
+    if ( elem.matches( selector ) ) return elem;
   }
 };
 
@@ -103,32 +91,27 @@ utils.handleEvent = function( event ) {
 utils.filterFindElements = function( elems, selector ) {
   // make array of elems
   elems = utils.makeArray( elems );
-  let ffElems = [];
 
-  elems.forEach( function( elem ) {
+  return elems
     // check that elem is an actual element
-    if ( !( elem instanceof HTMLElement ) ) {
-      return;
-    }
-    // add elem if no selector
-    if ( !selector ) {
-      ffElems.push( elem );
-      return;
-    }
-    // filter & find items if we have a selector
-    // filter
-    if ( elem.matches( selector ) ) {
-      ffElems.push( elem );
-    }
-    // find children
-    let childElems = elem.querySelectorAll( selector );
-    // concat childElems to filterFound array
-    for ( let i = 0; i < childElems.length; i++ ) {
-      ffElems.push( childElems[i] );
-    }
-  } );
-
-  return ffElems;
+    .filter( ( elem ) => elem instanceof HTMLElement )
+    .reduce( ( ffElems, elem ) => {
+      // add elem if no selector
+      if ( !selector ) {
+        ffElems.push( elem );
+        return ffElems;
+      }
+      // filter & find items if we have a selector
+      // filter
+      if ( elem.matches( selector ) ) {
+        ffElems.push( elem );
+      }
+      // find children
+      let childElems = elem.querySelectorAll( selector );
+      // concat childElems to filterFound array
+      ffElems = ffElems.concat( ...childElems );
+      return ffElems;
+    }, [] );
 };
 
 // ----- debounceMethod ----- //
@@ -140,14 +123,12 @@ utils.debounceMethod = function( _class, methodName, threshold ) {
   let timeoutName = methodName + 'Timeout';
 
   _class.prototype[ methodName ] = function() {
-    let timeout = this[ timeoutName ];
-    clearTimeout( timeout );
+    clearTimeout( this[ timeoutName ] );
 
     let args = arguments;
-    let _this = this;
-    this[ timeoutName ] = setTimeout( function() {
-      method.apply( _this, args );
-      delete _this[ timeoutName ];
+    this[ timeoutName ] = setTimeout( () => {
+      method.apply( this, args );
+      delete this[ timeoutName ];
     }, threshold );
   };
 };
@@ -183,23 +164,17 @@ utils.htmlInit = function( WidgetClass, namespace ) {
     let dashedNamespace = utils.toDashed( namespace );
     let dataAttr = 'data-' + dashedNamespace;
     let dataAttrElems = document.querySelectorAll( '[' + dataAttr + ']' );
-    let jsDashElems = document.querySelectorAll( '.js-' + dashedNamespace );
-    let elems = utils.makeArray( dataAttrElems )
-      .concat( utils.makeArray( jsDashElems ) );
-    let dataOptionsAttr = dataAttr + '-options';
     let jQuery = window.jQuery;
 
-    elems.forEach( function( elem ) {
-      let attr = elem.getAttribute( dataAttr ) ||
-        elem.getAttribute( dataOptionsAttr );
+    [ ...dataAttrElems ].forEach( ( elem ) => {
+      let attr = elem.getAttribute( dataAttr );
       let options;
       try {
         options = attr && JSON.parse( attr );
       } catch ( error ) {
         // log error, do not initialize
         if ( console ) {
-          console.error( 'Error parsing ' + dataAttr + ' on ' + elem.className +
-          ': ' + error );
+          console.error( `Error parsing ${dataAttr} on ${elem.className}: ${error}` );
         }
         return;
       }
