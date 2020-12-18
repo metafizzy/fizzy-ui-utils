@@ -3,17 +3,17 @@
  * MIT license
  */
 
-( function( window, factory ) {
+( function( global, factory ) {
   // universal module definition
   if ( typeof module == 'object' && module.exports ) {
     // CommonJS
-    module.exports = factory( window );
+    module.exports = factory( global );
   } else {
     // browser global
-    window.fizzyUIUtils = factory( window );
+    global.fizzyUIUtils = factory( global );
   }
 
-}( window, function factory( window ) {
+}( this, function factory( global ) {
 
 let utils = {};
 
@@ -154,7 +154,7 @@ utils.toDashed = function( str ) {
   } ).toLowerCase();
 };
 
-let console = window.console;
+let console = global.console;
 
 // allow user to initialize classes via [data-namespace] or .js-namespace class
 // htmlInit( Widget, 'widgetName' )
@@ -164,7 +164,7 @@ utils.htmlInit = function( WidgetClass, namespace ) {
     let dashedNamespace = utils.toDashed( namespace );
     let dataAttr = 'data-' + dashedNamespace;
     let dataAttrElems = document.querySelectorAll( '[' + dataAttr + ']' );
-    let jQuery = window.jQuery;
+    let jQuery = global.jQuery;
 
     [ ...dataAttrElems ].forEach( ( elem ) => {
       let attr = elem.getAttribute( dataAttr );
