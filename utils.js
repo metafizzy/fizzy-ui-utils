@@ -1,5 +1,5 @@
 /**
- * Fizzy UI utils v2.0.7
+ * Fizzy UI utils v3.0.0
  * MIT license
  */
 
@@ -163,7 +163,7 @@ utils.htmlInit = function( WidgetClass, namespace ) {
   utils.docReady( function() {
     let dashedNamespace = utils.toDashed( namespace );
     let dataAttr = 'data-' + dashedNamespace;
-    let dataAttrElems = document.querySelectorAll( '[' + dataAttr + ']' );
+    let dataAttrElems = document.querySelectorAll( `[${dataAttr}]` );
     let jQuery = global.jQuery;
 
     [ ...dataAttrElems ].forEach( ( elem ) => {

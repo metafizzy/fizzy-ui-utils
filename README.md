@@ -13,8 +13,14 @@ Yarn: `yarn add fizzy-ui-utils`
 ## API
 
 ``` js
-// fizzyUIUtils is the browser global
-const utils = fizzyUIUtils;
+// browser global
+const utils = window.fizzyUIUtils;
+
+// CommonJS
+const utils = require('fizzy-ui-utils');
+
+// JavaScript module
+import utils from 'fizzy-ui-utils';
 
 // ---- ---- //
 
@@ -65,6 +71,10 @@ utils.getParent( elem, selector )
 ```
 
 ## Browser support
+
+Fizzy UI utils uses ES2018 features like spread operators and arrow functions. As such its browser support is: Chrome 46+, Firefox 34+, Safari 10+, and Edge 12+.
+
+For older browser support, including IE10 and Android 4, [try v2](https://github.com/metafizzy/fizzy-ui-utils/tree/v2.0.7).
 
 ---
 
